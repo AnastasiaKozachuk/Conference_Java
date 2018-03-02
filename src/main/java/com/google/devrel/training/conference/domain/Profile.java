@@ -1,5 +1,8 @@
 package com.google.devrel.training.conference.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.devrel.training.conference.form.ProfileForm.TeeShirtSize;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -12,6 +15,7 @@ public class Profile {
 	String mainEmail;
 	TeeShirtSize teeShirtSize;
 
+	private List <String> conferenceKeysToAttend = new ArrayList<> (0);
 	// TODO indicate that the userId is to be used in the Entity's key
 	@Id String userId;
     
@@ -50,6 +54,22 @@ public class Profile {
 		this.displayName =displayName;
 		this.teeShirtSize = teeShirtSize;
 		
+	}
+	
+	public List <String> getConferenceKeysToAttend(){
+		return this.conferenceKeysToAttend;
+	}
+	
+	public void addToConferenceKeysToAttend(String key){
+		this.conferenceKeysToAttend.add(key);
+	}
+	
+	public void deleteFromConferenceKeysToAttend(String key){
+		for(String variant: this.conferenceKeysToAttend) {
+			if(variant.equals(key)) {
+				this.conferenceKeysToAttend.remove(variant);
+			}
+		}
 	}
 
 	/**
