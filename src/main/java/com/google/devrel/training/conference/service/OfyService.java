@@ -9,6 +9,7 @@ import com.googlecode.objectify.ObjectifyService;
 /**
  * Custom Objectify Service that this application should use.
  */
+
 public class OfyService {
     /**
      * This static block ensure the entity registration.

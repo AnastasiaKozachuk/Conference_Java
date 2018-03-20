@@ -5,7 +5,6 @@ import java.util.List;
 import com.googlecode.objectify.cmd.Query;
 import static com.google.devrel.training.conference.service.OfyService.ofy;
 import javax.inject.Named;
-
 import com.google.api.server.spi.response.ConflictException;
 import com.google.api.server.spi.response.ForbiddenException;
 import com.google.api.server.spi.response.NotFoundException;
@@ -15,8 +14,11 @@ import com.google.api.server.spi.config.ApiMethod;
 //import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.devrel.training.conference.Constants;
+import com.google.devrel.training.conference.domain.Announcement;
 import com.google.devrel.training.conference.domain.Conference;
 import com.google.devrel.training.conference.domain.Profile;
 import com.google.devrel.training.conference.form.ConferenceForm;
@@ -446,7 +448,25 @@ public class ConferenceApi {
     }
     
     
-    
+    @ApiMethod(
+    	    name="getAnnouncement",
+    	    path = "announcement",
+    	    httpMethod = HttpMethod.GET
+    	    )
+    public Announcement getAnnouncement() {
+    	    //TODO GET announcement from memcache by key and if it exist return it
+    	MemcacheService memcacheService = MemcacheServiceFactory.getMemcacheService();
+    	Announcement myvalue =  (Announcement) memcacheService.get(Constants.MEMCACHE_ANNOUNCEMENTS_KEY);
+    	if (myvalue == null) {
+            try {
+				throw new NotFoundException("Announcement doesn't exist.");
+			} catch (NotFoundException e) {
+				e.printStackTrace();
+			}
+        }
+    	
+    	return myvalue;
+    }
     
     /*@ApiMethod(
             name = "getConferencesFiltered",
@@ -455,7 +475,8 @@ public class ConferenceApi {
     )
     public List<Conference> getConferencesFiltered(){
 		Query query = ofy().load().type(Conference.class);
-		query = query.filter("maxAttendees >",10) query = query.filter("city =", "London");
+		query = query.filter("maxAttendees >",10); 
+		query = query.filter("city =", "London");
 		query = query.filter("topics =", "Web Technologies");
 		query = query.filter("month =", 1) .order("maxAttendees").order("name");
 		return query.list();    
