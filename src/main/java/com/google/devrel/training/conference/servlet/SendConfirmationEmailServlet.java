@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * A servlet for sending a notification e-mail.
  */
+@SuppressWarnings("serial")
 public class SendConfirmationEmailServlet extends HttpServlet {
 
     private static final Logger LOG = Logger.getLogger(

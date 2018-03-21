@@ -16,6 +16,9 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.appengine.api.users.User;
 import com.google.devrel.training.conference.Constants;
 import com.google.devrel.training.conference.domain.Announcement;
@@ -211,6 +214,11 @@ public class ConferenceApi {
         // Save Conference and Profile Entities
          ofy().save().entities(profile,conference);
 
+         String confirm =" Hello, you created a conference! \n Conference name: "+conference.getName();
+         
+         Queue queue = QueueFactory.getDefaultQueue();
+         queue.add(TaskOptions.Builder.withUrl("/sendMail").param("email",user.getEmail()).param("conferenceInfo",confirm));
+         
          return conference;
          }
     

@@ -39,7 +39,7 @@ public class SetAnnouncementServlet extends HttpServlet {
         // TODO
         // Iterate over the conferences with less than 5 seats less
         // and get the name of each one
-        List<String> conferenceNames = new ArrayList<>(0);
+        List<String> conferenceNames = new ArrayList<>();
         for (Conference conference : iterable) {
             conferenceNames.add(conference.getName());
         }

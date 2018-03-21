@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<cronentries>
+  <cron>
+    <url>/crons/set_announcement</url>
+    <description>Mail out a daily report</description>
+    <schedule>every 60 minutes from 10:00 to 12:00</schedule>
+    <timezone>Europe/Kiev</timezone>
+  </cron>
+</cronentries>

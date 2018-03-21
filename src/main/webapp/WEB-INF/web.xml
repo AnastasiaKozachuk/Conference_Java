@@ -43,4 +43,17 @@
 		<auth-constraint> 
 			<role-name>admin</role-name> 
 		</auth-constraint> 
-	</security-constraint></web-app>
+	</security-constraint>
+	
+	    <servlet> 
+		<servlet-name>SendConfirmationEmailServlet</servlet-name> 
+		<servlet-class>com.google.devrel.training.conference.servlet.SendConfirmationEmailServlet</servlet-class> 
+	</servlet> 
+	
+	<servlet-mapping> 
+		<servlet-name>SendConfirmationEmailServlet</servlet-name>
+		<url-pattern>/sendMail</url-pattern> 
+	</servlet-mapping> 
+	
+	
+	</web-app>
